@@ -28,6 +28,7 @@ pipelines:
           - echo $SFDC_URL > file.txt
           - sfdx auth:sfdxurl:store -a dev -f file.txt
           - rm -rf file.txt
+          - sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername dev --testlevel $TESTLEVEL
           
           
           
