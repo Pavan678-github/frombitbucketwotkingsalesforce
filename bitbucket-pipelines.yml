@@ -9,6 +9,7 @@ pipelines:
     - step:
         script:
           #Assign variables
+          - npm install -g sfdx-cli
           - echo $SFDC_URL > file.txt
           - sfdx auth:sfdxurl:store -a dev -f file.txt
           - rm -rf file.txt
