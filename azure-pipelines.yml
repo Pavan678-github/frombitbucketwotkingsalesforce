@@ -6,7 +6,7 @@ trigger:
 pool:
   vmImage: 'atlassian/default-image:2'
 
-pipelines:
+
   default: #These commands run for all branches unless specified otherwise
     - step:
         script:
