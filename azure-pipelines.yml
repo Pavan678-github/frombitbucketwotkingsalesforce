@@ -1,0 +1,27 @@
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: atlassian/default-image:2
+pipelines:
+  default: #These commands run for all branches unless specified otherwise
+    - step:
+        script:
+          #Assign variables
+          - export CLIURL=https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          - export SFDX_AUTOUPDATE_DISABLE=false
+          - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
+          - export SFDX_DOMAIN_RETRY=300
+          - export SFDX_DISABLE_APP_HUB=true
+          - export SFDX_LOG_LEVEL=DEBUG
+          - export DEPLOYDIR=src
+          - export TESTLEVEL=RunLocalTests
+          #Create sfdx directory
+          - mkdir ~/sfdx
+          #Install Salesforce CLI
+          #By default, the script installs the current version of Salesforce CLI. To install the release candidate, set the DX_CLI_URL_CUSTOM local variable to the appropriate URL
+          - wget -qO- ${DX_CLI_URL_CUSTOM-$CLIURL} | tar xJ -C ~/sfdx --strip-components 1
+          - export PATH=~/sfdx/bin:$PATH
+          - sfdx --version
+          - sfdx plugins --core
+          - echo $SFDC_URL > file.txt
+          - sfdx auth:sfdxurl:store -a dev -f file.txt
+          - rm -rf file.txt
+          - sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername dev --testlevel $TESTLEVEL
