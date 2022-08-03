@@ -1,5 +1,11 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: atlassian/default-image:2
+#image: atlassian/default-image:2
+trigger:
+- YourBranchName
+
+pool:
+  vmImage: 'ubuntu-latest'
+
 pipelines:
   default: #These commands run for all branches unless specified otherwise
     - step:
