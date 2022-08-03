@@ -4,7 +4,7 @@ trigger:
 - YourBranchName
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'atlassian/default-image:2'
 
 pipelines:
   default: #These commands run for all branches unless specified otherwise
